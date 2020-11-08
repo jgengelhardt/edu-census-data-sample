@@ -42,7 +42,7 @@ SELECT
 		WHEN median_household_income BETWEEN 25000.01 AND 50000 THEN '25k-50k'
 		WHEN median_household_income BETWEEN 50000.01 AND 100000 THEN '50K-100K'
 		WHEN median_household_income BETWEEN 100000.01 AND 200000 THEN '100k-200k'
-		WHEN median_household_income > 200000.01 THEN '200k+'
+		WHEN median_household_income > 200000 THEN '200k+'
 	END AS 'Median Household Income',
 	COUNT(DISTINCT public_hs_data.school_id) AS '# of High Schools',
 	ROUND(AVG(public_hs_data.pct_proficient_math),2) AS 'Math Prof.',
