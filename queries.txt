@@ -1,0 +1,5 @@
+-- How many public high schools are in each zip code? in each state?
+
+SELECT COUNT(school_id), zip_code
+FROM public_hs_data
+GROUP BY zip_code;
