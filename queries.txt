@@ -86,3 +86,15 @@ FROM public_hs_data
 	JOIN reading_scores ON reading_scores.state_code = public_hs_data.state_code
 	JOIN math_scores ON math_scores.state_code = public_hs_data.state_code
 GROUP BY public_hs_data.state_code;
+
+-- What is the average proficiency on state assessment exams for each zip code in a given state?
+
+SELECT 
+	zip_code AS "Zip",
+	COUNT(DISTINCT school_id) AS "# of Schools",
+	ROUND(AVG(pct_proficient_math),2) AS "Math",
+	ROUND(AVG(pct_proficient_reading),2) AS "Reading"
+FROM public_hs_data
+WHERE state_code = "IL"
+GROUP BY zip_code
+ORDER BY 2 DESC;
