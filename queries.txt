@@ -59,3 +59,30 @@ SELECT
 	ROUND(AVG(public_hs_data.pct_proficient_math),2) AS 'Math Prof.',
 	ROUND(AVG(public_hs_data.pct_proficient_reading),2) AS 'Reading Prof.'
 FROM public_hs_data;
+
+-- On average, do students in each state perform better on the math or reading exam? 
+
+WITH math_scores AS (
+	SELECT
+		AVG(pct_proficient_math) AS math_score,
+		state_code
+	FROM public_hs_data
+	WHERE pct_proficient_math IS NOT NULL
+	GROUP BY state_code
+),
+reading_scores AS (
+	SELECT
+		AVG(pct_proficient_reading) AS reading_score,
+		state_code
+	FROM public_hs_data
+	WHERE pct_proficient_reading IS NOT NULL
+	GROUP BY state_code)
+SELECT public_hs_data.state_code AS "State",
+CASE
+		WHEN reading_score > math_score THEN "Reading"
+		WHEN reading_score < math_score THEN "Math"
+END AS "Higher Scores"
+FROM public_hs_data
+	JOIN reading_scores ON reading_scores.state_code = public_hs_data.state_code
+	JOIN math_scores ON math_scores.state_code = public_hs_data.state_code
+GROUP BY public_hs_data.state_code;
